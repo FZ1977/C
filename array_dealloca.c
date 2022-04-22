@@ -1,12 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/* Scrivere una funzione denominata array_insert che prende in input i 
-*  parametri v, p, e dove il primo è un array_dinamico (come definito a 
-*  lezione), il secondo è un intero p ed il terzo un float. 
-*  La funzione deve inserire e in posizione p di v e restituire l'array 
-*  modificato. La funzione può assumere che p rappresenti una posizione 
-*  valida di v. Qual è il costo medio dell'operazione?
+/*
+* Scrivere una funzione denominata array_pop che prende in input un 
+* array dinamico v ed elimina da v l'elemento in coda.
 */
 
 struct array_dinamico{
@@ -21,6 +18,8 @@ array_dinamico array_init();
 array_dinamico array_append( array_dinamico ad, float e );
 void array_print( array_dinamico ad );
 array_dinamico array_insert(array_dinamico ad, int p, float e);
+array_dinamico array_pop(array_dinamico ad);
+int array_empty( array_dinamico ad );
 
 void main(){
 	int i;
@@ -29,11 +28,45 @@ void main(){
 	for (i = 1; i < 10; i++){
 		v = array_append( v, i*10+i );
 	}
-	printf("%d\n", v.n);
+	printf("Array creato con la funzione append.\n");
 	array_print(v);
-	array_insert( v, 0, -8);
-	printf("%d\n", v.n);
+	v=array_insert( v, 5, 12.34);
+	printf("Array modificato con la funzione insert.\n");
 	array_print(v);
+	v=array_pop(v);
+	printf("Array modificato con la funzione pop.\n");
+	array_print(v);
+	v=array_append( v, 3.14 );
+	printf("Array creato con la funzione append.\n");
+	array_print(v);
+	
+	while(array_empty(v) == 0){
+		v = array_pop(v);
+	}
+	printf("Array creato con la funzione empty.\n");
+	array_print(v);
+}
+
+int array_empty( array_dinamico ad ){
+	if (ad.n==0){
+		return 1;
+	}else {
+		return 0;
+	}
+}
+
+array_dinamico array_pop(array_dinamico ad){
+	if(ad.n == 0){
+		return ad;
+	}
+	if(4*ad.n < ad.c){
+		/* dimezziamo la capacità */
+		ad.a = realloc(ad.a, (ad.c/2 + 1)*sizeof(float));
+		ad.c = ad.c/2 + 1;
+	}
+	ad.n--;
+
+	return ad;
 }
 
 /* 
@@ -65,31 +98,29 @@ array_dinamico array_init(){
 
 /*
  * Aggiunge un nuovo elemento in fondo all'array dinamico
+ * Possiamo rivedere la funzione array_append con la realloc.
  * */
-array_dinamico array_append( array_dinamico ad, float e ){
-    float *b;
+array_dinamico array_append(array_dinamico ad, float e){
     int i;
+    float *b;
+    
     if ( ad.n == ad.c ) {
-        ad.c = 1 + 2*ad.c;
-        b = malloc(sizeof(float)*ad.c); /* O(1) */
-        if(b!=NULL){
-			for(i = 0; i < ad.n; i++){ /* O(n) */ 
-				b[i] = ad.a[i]; /* copio l'array a[] su b[] */
-			}
-			free(ad.a); /* O(1) */
-			ad.a = b;
-		} else {
+		ad.c = 1 * 2*ad.c;
+		b = realloc(ad.a, sizeof(float)*ad.c); /* O(n) */
+		if(b==NULL){
 			return ad;
 		}
-    }
+		ad.a = b;
+	}
+
     ad.a[ad.n] = e;
     ad.n++;
-    
     return ad;
 }
 
 void array_print( array_dinamico ad ){
-	for(int i=0; i<ad.n; i++){
-		printf("%d; a = %f\n", i, ad.a[i]);
+	printf("n = %d - c = %d\n",ad.n, ad.c);
+	for(int i=0; i<ad.c; i++){
+		printf("i=%d; a=%f\n", i, ad.a[i]);
 	}
 }
