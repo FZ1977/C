@@ -1,37 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-struct prova{
-	int a;
-	int b;
-};
+int funzione(char *a);
 
-typedef struct prova prova;
-
-prova zero(){
-	prova p = {0,0};
-	return p;
-}
-
-prova ins(prova p, int a, int b){
-	p.a=a;
-	p.b=b;
+int main(){
+	char *a="stringa";
+	int res=0;
 	
-	return p;
+	res=funzione(a);
+	printf("%d",res);
 }
 
-prova mod(prova p){
-	p.a = 3;
-	p.b = 9;
-	return p;
-}
-
-void main(){
-	prova p;
-	p=zero(p);
-	printf("prima %d - %d\n",p.a, p.b);
-	p=ins(p,1,3);
-	printf("dopo %d - %d\n",p.a, p.b);
-	p=mod(p);
-	printf("mod %d - %d\n",p.a, p.b);
+int funzione(char* a){
+	int i, n=0;
+	for(i=0;i<strlen(a);i++){
+		n += a[i];
+	}
+	return n;
 }
