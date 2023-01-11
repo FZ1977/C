@@ -1,21 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-int funzione(char *a);
-
-int main(){
-	char *a="stringa";
-	int res=0;
+int main(int argc, char *argv[]){
+	int i[5]; /* allocazione statica */
+	int *pi;
 	
-	res=funzione(a);
-	printf("%d",res);
-}
-
-int funzione(char* a){
-	int i, n=0;
-	for(i=0;i<strlen(a);i++){
-		n += a[i];
+	pi = malloc(sizeof(int)*5); /* allocazione dinamica */
+	
+	printf("v[] = %d - *p = %d\n", sizeof(i), sizeof(pi)*5);
+	
+	if(pi == NULL){
+		printf("Allocazione non possibile.\n");
+		return -1;
 	}
-	return n;
+	
+	for(int x = 0; x<5; x++){
+		i[x] = x;
+		*pi = x;
+		pi++;
+	}
+	
+	pi = pi - 5;
+	
+	for(int x = 0; x<5; x++){
+		printf("v[] = %d - *p = %d\n", i[x], *pi);
+		pi++;
+	}
+	free(pi);
 }
