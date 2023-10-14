@@ -1,35 +1,43 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-char **funzione(char *);
+void centering(int *a, int r, int c);
 
-int main() {
-  char *a = "Programma C";
-  char **p = funzione(a);
-  for(int i=0; *p[i]!=NULL; i++){
-   printf("%c\n",*p[i]);
- }
- return 0;
+void main(){
+    int r=6, c=5;
+    int a[] = { 1,1,0,0,0,
+            1,0,0,0,0,
+            1,1,1,0,0,
+            1,1,0,0,0,
+            1,1,1,1,0,
+            1,1,1,1,1
+            };
+    centering(a,r,c);
+
+    return 0;
 }
 
-char **funzione(char *a){
-  int i, j=0, conta=0;
-  
-  for(i=0; a[i]!='\0'; i++){
-    if(a[i]=='A' || a[i]=='E' || a[i]=='I' || a[i]=='O' || a[i]=='U' || a[i]=='a' || a[i]=='e' || a[i]=='i' || a[i]=='o' || a[i]=='u'){
-      conta++;
+void centering(int *a, int r, int c){
+    int appo;
+    for(int i=0; i<r*c; i++){
+        if(i==0 || i==5 || i==10 || i==15 || i==20 || i==25){
+            appo = *a;
+            *a=*(a+2);
+            *(a+2)=appo;
+            printf("a: %d - a+2: %d\n", *a, *(a+2));
+        }
+        a++;
     }
-  }
-  
-  char **p = malloc(sizeof(char *)*(conta+1));
-  
-  for(i=0; a[i]!='\0'; i++){
-    if(a[i]=='A' || a[i]=='E' || a[i]=='I' || a[i]=='O' || a[i]=='U' || a[i]=='a' || a[i]=='e' || a[i]=='i' || a[i]=='o' || a[i]=='u'){
-      p[j]=&a[i];
-      j++;
+
+    a=a-30;
+
+    for(int righe=0; righe<r; righe++){
+        for(int colonne=0; colonne<c; colonne++){
+            printf("%d ",*a);
+            a++;
+        }
+        printf("\n");
     }
-  }
-  p[j]=NULL;
-  
-  return p;
+
 }
