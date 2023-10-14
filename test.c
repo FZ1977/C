@@ -1,30 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main(int argc, char *argv[]){
-	int i[5]; /* allocazione statica */
-	int *pi;
-	
-	pi = malloc(sizeof(int)*5); /* allocazione dinamica */
-	
-	printf("v[] = %d - *p = %d\n", sizeof(i), sizeof(pi)*5);
-	
-	if(pi == NULL){
-		printf("Allocazione non possibile.\n");
-		return -1;
-	}
-	
-	for(int x = 0; x<5; x++){
-		i[x] = x;
-		*pi = x;
-		pi++;
-	}
-	
-	pi = pi - 5;
-	
-	for(int x = 0; x<5; x++){
-		printf("v[] = %d - *p = %d\n", i[x], *pi);
-		pi++;
-	}
-	free(pi);
+int *f(){
+    int a=1;
+    int *p;
+    p=&a;
+    //printf("Valore di p dentro f %d - %x\n",*p,p);
+    return p;
+}
+
+void main(){
+    int *a;
+    int b[]={1,2,3,4};
+    int n=4;
+    a=f();
+    //printf("Valore di p dentro main %d - %x\n",*a,a);
+
+    int i=0;
+    printf("%d %d\n", b[0], b[1]);
+    while(i<n-1){
+        printf("%d %d\n", b[i], b[i+1]);
+        i++;
+    }
 }
