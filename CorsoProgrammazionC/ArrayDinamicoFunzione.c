@@ -24,9 +24,6 @@ int main(){
     px = p;
 
     for(x=0; x<6; x++){
-        //printf("Inserisci valore: ");
-        //scanf("%d",&x);
-        //printf("%p - %p - (%d)\n",px,sbuf,(sbuf-px));
         if( (sbuf - px) > 1 ){
             printf("Inserimento in memoria num. %d.\n",i);
             *px = x;
@@ -35,31 +32,11 @@ int main(){
         }
         else
         {
-            //i = 0;
             int *p_new, *px_new;
             n = 2 * n;
-            /*
-            printf("Alloco altro spazio - %d.\n",n);
-
-            p_new = malloc(n * sizeof(int));
-
-            if(p_new == NULL){
-                return -1;
-            }
-            */
             p_new = ResizeMem(n);
             sbuf = p_new + (n - 1);
             px_new = p_new;
-            /*
-            // Qui copio i dati dal vecchio al nuovo
-            while(p < px){
-                printf("Copia in memoria num. %d.\n",i);
-                *px_new = *p;
-                px_new++;
-                p++;
-                i++;
-            }
-            */
             px_new = CopiaValori(p, px, px_new);
             printf("Inserimento in memoria num. %d.\n",i);
             *px_new = x;
